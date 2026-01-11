@@ -1,20 +1,9 @@
 <?php
-echo "<h2>Welcome to LFI Challenge</h2>";
-echo "<p>Try <code>?file=home</code> or <code>?file=about</code></p>";
+$page = $_GET['page'] ?? 'home';
 
-$file = isset($_GET['file']) ? $_GET['file'] : 'home';
-
-/*
- * Friendly page mapping
- */
-if (strpos($file, 'php://') === false && strpos($file, '/') === false) {
-    $file = __DIR__ . "/pages/" . $file . ".php";
+if (strpos($page, 'php://') === false && strpos($page, '/') === false) {
+    $page = __DIR__ . "/pages/" . $page . ".php";
 }
 
-/*
- * INTENTIONALLY VULNERABLE:
- * - Allows php://filter
- * - Allows directory traversal
- */
-include($file);
+include($page);
 ?>
